@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import ApiError from "./ApiError";
 
 export const accessTokenCreation = (payload) => {
     try {   
@@ -10,7 +9,6 @@ export const accessTokenCreation = (payload) => {
         )
     } catch (error) {
         console.log(error);
-        throw new ApiError(500 , error.name);
     }
 }
 
@@ -23,6 +21,23 @@ export const refreshTokenCreation = (payload) => {
         )
     } catch (error) {
         console.log(error);
-        throw new ApiError(500 , error.name);
+    }
+}
+
+
+export const validateAccessToken = (token) => {
+    try {
+        return jwt.verify(token , process.env.ACCESS_SECRET_KEY);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+export const validateRefreshToken = (token) => {
+    try {
+        return jwt.verify(token , process.env.REFRESH_SECRET_KEY);
+    } catch (error) {
+        console.log(error)
     }
 }

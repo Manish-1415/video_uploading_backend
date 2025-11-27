@@ -48,3 +48,22 @@ export const authUser = asyncHandler(async (req , res) => {
 })
 
 
+export const updateUserInfo = asyncHandler(async (req , res) => {
+    const file = req.file;
+    const userInfoObj = req.body;
+    const userId = req.user.id;
+
+    const user = await userService.updateUser(file , userInfoObj , userId);
+
+    const resToSendClient = {
+        id : user._id,
+        fullname : user.fullname,
+        avatar : user.avatar,
+        role : user.role,
+        email : user.email,
+    }
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200 , "User Updation Complete", resToSendClient));
+})
