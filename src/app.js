@@ -23,9 +23,11 @@ app.use(cors({
 
 import userRouter from "./modules/user/user.route.js";
 import authRouter from "./modules/auth/auth.route.js";
+import videoRouter from "./modules/video/video.route.js";
 
 app.use("/api/v1/user" , userRouter);
 app.use("/api/v1/auth" , authRouter);
+app.use("/api/v1/upload" , videoRouter);
 
 
 // import err middleware at last 

@@ -1,10 +1,11 @@
 import multer from "multer";
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./uploads"); // temporary local folder
+const storage = multer.diskStorage({  // this diskStorage is our own disk
+  destination: function (req, file, cb) {
+    cb(null, "./uploads"); // temporary local folder in our diskStorage
+    // the fisrst null is err obj which we manually set null in here is simply 
   },
-  filename: (req, file, cb) => {
+  filename: function (req, file, cb) {
     cb(null, Date.now() + "-" + file.originalname);
   }
 });
