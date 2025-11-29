@@ -21,3 +21,35 @@ export const updateUserInfo = asyncHandler(async (req , res) => {
     .status(200)
     .json(new ApiResponse(200 , "User Updation Complete", resToSendClient));
 })
+
+
+export const getUser = asyncHandler(async (req , res) => {
+    const userId = req.user.id;
+
+    const user = await userService.getUserEntry(userId);
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200 , "User Fetched Successfully!", user));
+});
+
+
+export const changePassword = asyncHandler(async (req , res) => {
+    const userId = req.user.id;
+    const {oldPassword , newPassword} = req.body;
+
+    const updatePassword = await userService.generateNewPassword(userId , oldPassword , newPassword);
+
+        const resToSendClient = {
+        id : updatePassword._id,
+        fullname : updatePassword.fullname,
+        avatar : updatePassword.avatar,
+        role : updatePassword.role,
+        email : updatePassword.email,
+    }
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200 , "Password Updated Successfully !", resToSendClient));
+
+})

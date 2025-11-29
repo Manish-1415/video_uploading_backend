@@ -1,6 +1,6 @@
 import ApiError from "../../utility/ApiError.js";
 import { deleteFileFromCloudinary, uploadFileOnCloudinary } from "../../utility/cloudinary.js";
-import {User} from "./user.model.js"
+import {User} from "../auth/auth.model.js";
 
 const userService = {
     updateUser : async (file , userInfoObj , userId) => {
@@ -42,6 +42,36 @@ const userService = {
 
                 return findUserEntry;
         }
+    },
+
+    getUserEntry : async (userId) => {
+        let findUserEntry = await User.findById(userId).select("-password -refreshToken");
+
+        if(!findUserEntry) throw new ApiError(404 , "User Not Found");
+
+        if(findUserEntry._id.toString() !== userId) throw new ApiError(400 , "User Cannt Perform this Operation");
+
+        return findUserEntry;
+    },
+
+    generateNewPassword : async (userId , oldPassword , newPassword) => {
+        // find user
+        let findUserEntry = await User.findById(userId);
+
+        if(!findUserEntry) throw new ApiError(404 , "User Not Found");
+
+        if(findUserEntry._id.toString() !== userId) throw new ApiError(400 , "User Cannot Perform this Operation");
+
+        const checkIfPassIsSame = await findUserEntry.comparePassword(oldPassword);
+
+        if(!checkIfPassIsSame) throw new ApiError(400 , "Please Provide Correct Password");
+
+        findUserEntry.password = "";
+        findUserEntry.password = newPassword;
+
+        await findUserEntry.save();
+
+        return findUserEntry;
     }
 }
 

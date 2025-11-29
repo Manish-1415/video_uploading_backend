@@ -9,3 +9,9 @@ export const updateSchema = Joi.object({
         .max(20)
         .optional()
 });
+
+
+export const newPasswordSchema = Joi.object({
+    oldPassword : Joi.string().min(6).max(20).required(),
+    newPassword : Joi.string().min(6).max(20).required()
+});

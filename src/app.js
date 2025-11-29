@@ -22,10 +22,10 @@ app.use(cors({
 // import routers here
 
 import userRouter from "./modules/user/user.route.js";
-
+import authRouter from "./modules/auth/auth.route.js";
 
 app.use("/api/v1/user" , userRouter);
-
+app.use("/api/v1/auth" , authRouter);
 
 
 // import err middleware at last 
