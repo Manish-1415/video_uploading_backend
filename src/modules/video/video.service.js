@@ -10,7 +10,7 @@ const videoService = {
 
         if(!findUserEntry) throw new ApiError(404 , "User Not Found");
 
-        if(findUserEntry._id.toString() !== userId) throw new ApiError(400 , "User Cannot Perform this Operation");
+        if(findUserEntry._id.toString() !== userId) throw new ApiError(400 , "User Cannot Perform this Operation"); // extra safety purpose.
 
         if(!files || files.videoFile.length === 0) {
             throw new ApiError(400 , "Video File is Missing");
@@ -51,6 +51,7 @@ const videoService = {
             owner : findUserEntry._id,
             // Here we will writing the logic of views when half of the project will be done
             tags : tagsCheck.length >=1 ? tagsCheck : [],
+            views : 0,
         }
 
         const createVideoEntry = await Video.create(videoObj);
