@@ -3,6 +3,7 @@ import validateUser from "../../middlewares/verifyUser.middleware.js";
 import validationMiddleware from "../../middlewares/validate.middleware.js";
 import { videoUploadSchema } from "./video.validation.js";
 import { upload } from "../../middlewares/multer.middleware.js";
+import { getSpecificVideo, uploadVideo } from "./video.controller.js";
 
 const router = Router();
 
@@ -14,7 +15,10 @@ router.post(
     { name: "videoFile", maxCount: 1 },
     { name: "thumbnail", maxCount: 1 },
   ]),
-  
+  uploadVideo
 );
+
+
+router.get("/:vid_id", validateUser , getSpecificVideo);
 
 export default router;

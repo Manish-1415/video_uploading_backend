@@ -60,6 +60,20 @@ const videoService = {
 
         return createVideoEntry;
 
+    },
+
+    fetchSingleVideo : async (vidId) => {
+        const findVideo = await Video.findById(vidId);
+
+        if(!findVideo) throw new ApiError(404 , "Video Not Found");
+
+        return findVideo;        
+    },
+
+    fetchAllVideos : async () => {
+        const getVids = await Video.find();
+
+        getVids.length >= 0 ? ( getVids ) : ([]);
     }
 }
 
