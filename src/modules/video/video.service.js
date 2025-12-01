@@ -74,6 +74,18 @@ const videoService = {
         const getVids = await Video.find();
 
         getVids.length >= 0 ? ( getVids ) : ([]);
+    },
+
+    updateViews : async (videoId) => {
+        let findVideo = await Video.findById(videoId);
+
+        if(!findVideo) throw new ApiError(404 , "Video Not Found");
+
+        findVideo.views += 1;
+
+        await findVideo.save();
+
+        return findVideo;
     }
 }
 

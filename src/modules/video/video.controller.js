@@ -33,3 +33,14 @@ export const getVideos = asyncHandler(async (req , res) => {
     .status(200)
     .json(new ApiResponse(200 , "Videos Fetched Successfully !", videos));
 });
+
+
+export const increaseViews = asyncHandler(async (req , res) => {
+    const videoId = req.params.id;
+
+    const video = await videoService.updateViews(videoId);
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200 , "Views Updated Successfully !", video));
+})

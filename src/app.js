@@ -27,7 +27,7 @@ import videoRouter from "./modules/video/video.route.js";
 
 app.use("/api/v1/user" , userRouter);
 app.use("/api/v1/auth" , authRouter);
-app.use("/api/v1/upload" , videoRouter);
+app.use("/api/v1/video" , videoRouter);
 
 
 // import err middleware at last 
