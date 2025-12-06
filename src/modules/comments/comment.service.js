@@ -27,25 +27,42 @@ const commentService = {
         return createComment;
     },
 
-    updateCommentEntry : async (videoId , userId , comment) => {
+    updateCommentEntry : async (commentId , userId , comment) => {
         const findUser = await User.findById(userId);
 
         if(!findUser) throw new ApiError(404 , "User Not Found");
 
-        const findVideo = await User.findById(videoId);
+        let findAndUpdateCmt = await Comment.findByIdAndUpdate(commentId , {comment});
 
-        if(!findVideo) throw new ApiError(404 , "Video Not Found");
+        if(!findAndUpdateCmt) throw new ApiError(500 , "Error Occurred While Deleting the Comment");
 
-        let ifUserCommentExist = await Comment.findOne({videoId , userId});
+        return findAndUpdateCmt;
+    },
 
-        if(!ifUserCommentExist) throw new ApiError(404 , "U cannot update a comment which u cant write");
+    deleteCommentEntry : async (commentId , userId) => {
+        const findUser = await User.findById(userId);
 
-        ifUserCommentExist.comment = comment;
+        if(!findUser) throw new ApiError(404 , "User Not Found");
 
-        await ifUserCommentExist.save();
+        // find the comment to delete 
 
-        return ifUserCommentExist;
-    }
+        const findComment = await Comment.findById(commentId);
+        
+        if(!findComment) throw new ApiError(404 , "Comment Not Found to delete");
+
+        if(findComment.userId.toString() === userId) {
+            // if comment is created by this user then only del it.
+
+            const findAndDelComment = await Comment.findByIdAndDelete(commentId);
+
+            if(findAndDelComment) throw new ApiError(500 , "Error Occurred while deleting the comment");
+
+            return findAndDelComment;
+        }
+        else {
+            throw new ApiError(400 , "User is Not Authorized for this Operation");
+        }
+    },
 }
 
 export default commentService;

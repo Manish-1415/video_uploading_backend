@@ -18,13 +18,21 @@ export const createComment = asyncHandler(async (req , res) => {
 
 
 export const updateComment = asyncHandler(async (req , res) => {
-    const videoId = req.params.vid_id;
+    const commentId = req.params.comment_id;
     const userId = req.user.id;
     const commentByUser = req.body;
 
-    const comment = await commentService.updateCommentEntry(videoId , userId , commentByUser);
+    const comment = await commentService.updateCommentEntry(commentId , userId , commentByUser);
 
     return res
     .status(200)
     .json(new ApiResponse(200 , "Comment Update Successfully !" , comment));
+});
+
+
+export const deleteComment = asyncHandler(async (req , res) => {
+    const commentId = req.params.comment_id;
+    const userId = req.user.id;
+
+    const deletedComment = await commentService.deleteCommentEntry(commentId , userId);
 });
