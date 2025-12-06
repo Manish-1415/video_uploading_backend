@@ -1,5 +1,5 @@
-import ApiError from "../utility/ApiError";
-import { validateRefreshToken } from "../utility/jwt.tokens";
+import ApiError from "../utility/ApiError.js";
+import { validateRefreshToken } from "../utility/jwt.tokens.js";
 
 const checkRefreshToken = (req , res , next) => {
     // we need to check for the refresh token
