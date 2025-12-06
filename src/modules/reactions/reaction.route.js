@@ -6,8 +6,8 @@ import { createReaction, getReactionOnVid } from "./reaction.controller";
 
 const router = Router();
 
-router.post("/", validateUser , validationMiddleware(reactionValidationSchema) , createReaction);
+router.post("/:vid_id", validateUser , validationMiddleware(reactionValidationSchema) , createReaction);
 
-router.get("/:id", validateUser , getReactionOnVid);
+router.get("/:vid_id", validateUser , getReactionOnVid);
 
 export default router;

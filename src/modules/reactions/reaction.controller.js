@@ -4,7 +4,7 @@ import reactionService from "../reactions/reaction.service.js";
 
 export const createReaction = asyncHandler(async (req , res) => {
     const userId = req.user.id;
-    const videoId = req.params.id;
+    const videoId = req.params.vid_id;
     const reactionByUser = req.body;
 
     const reaction = await reactionService.createReactionEntry(userId , videoId , reactionByUser);
@@ -16,7 +16,7 @@ export const createReaction = asyncHandler(async (req , res) => {
 
 
 export const getReactionOnVid = asyncHandler(async (req , res) => {
-    const videoId = req.params.id;
+    const videoId = req.params.vid_id;
 
     const reactions = await reactionService.getReactionsOnAVideo(videoId);
 
