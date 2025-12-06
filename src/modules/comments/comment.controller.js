@@ -23,4 +23,8 @@ export const updateComment = asyncHandler(async (req , res) => {
     const commentByUser = req.body;
 
     const comment = await commentService.updateCommentEntry(videoId , userId , commentByUser);
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200 , "Comment Update Successfully !" , comment));
 });

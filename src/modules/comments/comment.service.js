@@ -30,7 +30,21 @@ const commentService = {
     updateCommentEntry : async (videoId , userId , comment) => {
         const findUser = await User.findById(userId);
 
-        if(!findUser) throw new ApiError(404 , "User Not Found")
+        if(!findUser) throw new ApiError(404 , "User Not Found");
+
+        const findVideo = await User.findById(videoId);
+
+        if(!findVideo) throw new ApiError(404 , "Video Not Found");
+
+        let ifUserCommentExist = await Comment.findOne({videoId , userId});
+
+        if(!ifUserCommentExist) throw new ApiError(404 , "U cannot update a comment which u cant write");
+
+        ifUserCommentExist.comment = comment;
+
+        await ifUserCommentExist.save();
+
+        return ifUserCommentExist;
     }
 }
 
