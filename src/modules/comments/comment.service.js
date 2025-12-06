@@ -32,11 +32,17 @@ const commentService = {
 
         if(!findUser) throw new ApiError(404 , "User Not Found");
 
-        let findAndUpdateCmt = await Comment.findByIdAndUpdate(commentId , {comment});
+        let findTheComment = await Comment.findById(commentId);
+    
+        if(!findTheComment) throw new ApiError(404 , "Comment Not Found");
 
-        if(!findAndUpdateCmt) throw new ApiError(500 , "Error Occurred While Deleting the Comment");
+        if(findTheComment.userId.toString() !== userId) throw new ApiError(403 , "User Is Not Authorized to Perform This Operation");
 
-        return findAndUpdateCmt;
+        findTheComment.comment = comment;
+
+        await findTheComment.save();
+
+        return findTheComment;
     },
 
     deleteCommentEntry : async (commentId , userId) => {
@@ -55,7 +61,7 @@ const commentService = {
 
             const findAndDelComment = await Comment.findByIdAndDelete(commentId);
 
-            if(findAndDelComment) throw new ApiError(500 , "Error Occurred while deleting the comment");
+            if(!findAndDelComment) throw new ApiError(500 , "Error Occurred while deleting the comment");
 
             return findAndDelComment;
         }
@@ -65,7 +71,7 @@ const commentService = {
     },
 
     getAllComments : async (videoId) => {
-        const findIfCommentsExist = await Comment.find({videoId});
+        const findIfCommentsExist = await Comment.find({videoId}).sort({createdAt : -1}); // this sort -1 means from the first comment generated to latest comment 
 
         return findIfCommentsExist;
     }

@@ -6,7 +6,7 @@ import commentService from "./comment.service";
 export const createComment = asyncHandler(async (req , res) => {
     const videoId = req.params.vid_id;
     const userId = req.user.id;
-    const commentByUser = req.body;
+    const commentByUser = req.body.comment;
 
     const comment = await commentService.createCommentEntry(videoId , userId , commentByUser);
 
@@ -20,7 +20,7 @@ export const createComment = asyncHandler(async (req , res) => {
 export const updateComment = asyncHandler(async (req , res) => {
     const commentId = req.params.comment_id;
     const userId = req.user.id;
-    const commentByUser = req.body;
+    const commentByUser = req.body.comment;
 
     const comment = await commentService.updateCommentEntry(commentId , userId , commentByUser);
 

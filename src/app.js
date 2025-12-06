@@ -25,12 +25,15 @@ import userRouter from "./modules/user/user.route.js";
 import authRouter from "./modules/auth/auth.route.js";
 import videoRouter from "./modules/video/video.route.js";
 import reactionRouter from "./modules/reactions/reaction.route.js";
+import commentRouter from "./modules/comments/comment.route.js";
+import subscriptionRouter from "./modules/subscription/subscription.route.js";
 
 app.use("/api/v1/user" , userRouter);
 app.use("/api/v1/auth" , authRouter);
 app.use("/api/v1/video" , videoRouter);
 app.use("/api/v1/reaction", reactionRouter);
-
+app.use("/api/v1/comments", commentRouter);
+app.use("/api/v1/subscription", subscriptionRouter);
 
 
 // import err middleware at last 
