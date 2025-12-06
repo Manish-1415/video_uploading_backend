@@ -34,6 +34,24 @@ const subscriptionService = {
 
             return subscribeToChannel;
         }
+    },
+
+    giveChannelsThatUserSubscribed : async (userId) => {
+        const findUserSubscribedChannels = await Subscription.find({subscriber : userId});
+
+        if(!findUserSubscribedChannels) return [];
+
+        return findUserSubscribedChannels;
+    },
+
+    giveCountOfSubscribers : async (channelId) => {
+        const findChannelsSubscription = await Subscription.find({subscribedTo : channelId});
+
+        // if(!findChannelsSubscription) return 0;
+
+        const countSubscribers = findChannelsSubscription.filter( (subscription) => subscription.subscriber ).length;
+        
+        return countSubscribers;
     }
 }
 
