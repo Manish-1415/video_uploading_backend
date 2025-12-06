@@ -11,7 +11,7 @@ export const createReaction = asyncHandler(async (req , res) => {
 
     return res
     .status(201)
-    .json(new ApiResponse(201 , "Reaction Created", reaction));
+    .json(new ApiResponse(201 , "Reaction Created/Updated/Deleted", reaction));
 });
 
 
@@ -20,9 +20,7 @@ export const getReactionOnVid = asyncHandler(async (req , res) => {
 
     const reactions = await reactionService.getReactionsOnAVideo(videoId);
 
-    const {likes , dislikes} = reactions;
-
     return res
     .status(200)
-    .json(new ApiResponse(200 , "Reactions Fetched" , {likes , dislikes}));
+    .json(new ApiResponse(200 , "Reactions Fetched" , reactions));
 })

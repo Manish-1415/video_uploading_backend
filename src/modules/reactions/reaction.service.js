@@ -3,6 +3,8 @@ import { User } from "../auth/auth.model.js";
 import { Video } from "../video/video.model.js";
 import { Reaction } from "../reactions/reaction.model.js"
 
+
+// Updated New little things & got to know that we dont need to return video from here we will make another call for videos in our backend . First videos homepage filled with videos if clicked on a thumbnail card the next api call will happen which is for the full specific details of an video , then after that call the reactions api route will get called
 const reactionService = {
     createReactionEntry : async (userId , videoId , reaction) => {
         // find user & video first
@@ -20,7 +22,7 @@ const reactionService = {
         if(findReactionExist) {
             if(findReactionExist.reaction === reaction) {
                 // if user old reaction & new reaction are similar then delete the reaction
-                return await Reaction.findByIdAndDelete(findReactionExist._id , {new : true});
+                return await Reaction.findByIdAndDelete(findReactionExist._id);
             }
             else {
                 findReactionExist.reaction = reaction;
@@ -39,7 +41,7 @@ const reactionService = {
 
             if(!createNewReaction) throw new ApiError(500 , "Error Occurred while creating an Reaction");
 
-            return {video : findVideo , reaction : createNewReaction};
+            return {reaction : createNewReaction};
         }
     },
 
@@ -56,7 +58,7 @@ const reactionService = {
         const countLikes = findIfVidGotReactions.filter( (reactionObj) => reactionObj.reaction === "like" ).length;
         const countDislikes = findIfVidGotReactions.filter( (reactionObj) => reactionObj.reaction === "dislike" ).length;
 
-        return { video : findVideo , likes : countLikes , dislikes : countDislikes }
+        return {likes : countLikes , dislikes : countDislikes }
     }
 };
 
