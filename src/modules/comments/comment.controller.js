@@ -35,4 +35,20 @@ export const deleteComment = asyncHandler(async (req , res) => {
     const userId = req.user.id;
 
     const deletedComment = await commentService.deleteCommentEntry(commentId , userId);
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200 , "Comment Deleted Successfully !", deletedComment));
 });
+
+
+
+export const getAllCommentsOfAVideo = asyncHandler(async (req , res) => {
+    const videoId = req.params.vid_id;
+
+    const comments = await commentService.getAllComments(videoId);
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200 , "Comments Fetched " , comments));
+})

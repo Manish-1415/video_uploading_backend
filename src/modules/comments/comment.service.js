@@ -63,6 +63,12 @@ const commentService = {
             throw new ApiError(400 , "User is Not Authorized for this Operation");
         }
     },
+
+    getAllComments : async (videoId) => {
+        const findIfCommentsExist = await Comment.find({videoId});
+
+        return findIfCommentsExist;
+    }
 }
 
 export default commentService;
